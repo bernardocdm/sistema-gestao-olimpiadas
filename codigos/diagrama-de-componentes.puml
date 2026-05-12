@@ -1,0 +1,44 @@
+@startuml
+left to right direction
+
+package "Frontend" {
+  component "Interface do Usuário" as UI
+}
+
+package "Backend" {
+  component "API REST" as API
+  component "Serviço de Autenticação" as Auth
+  component "Módulo de Competições" as Comp
+  component "Módulo de Inscrições" as Insc
+  component "Módulo de Alocação" as Aloc
+  component "Módulo de Resultados" as Res
+  component "Módulo de Relatórios" as Rel
+}
+
+package "Persistência" {
+  database "Banco de Dados" as DB
+}
+
+UI --> API
+API --> Auth
+
+
+API --> Res
+API --> Rel
+
+API --> Comp
+API --> Insc
+
+Comp --> Aloc
+Comp --> Insc
+
+Res --> Rel
+
+Auth --> DB
+Comp --> DB
+Insc --> DB
+Aloc --> DB
+Res --> DB
+Rel --> DB
+
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+left to right direction
+
+actor Administrador
+actor Atleta
+actor "Comitê Olímpico" as Comite
+
+rectangle "Sistema de Gestão das Olimpíadas" {
+  Administrador -- (Cadastrar Competição)
+  Administrador -- (Alocar Local)
+  Administrador -- (Registrar Resultados) 
+
+  (Registrar Resultados) ..> (Validar Resultados) : <<include>>
+
+  Atleta -- (Inscrever-se em Competição)
+
+  Comite -- (Gerar Relatório de Medalhas)
+  Comite -- (Consultar Resultados)
+
+}
+@enduml

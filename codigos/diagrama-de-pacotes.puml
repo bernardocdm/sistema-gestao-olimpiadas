@@ -1,0 +1,46 @@
+@startuml
+left to right direction
+
+package "Interface Usuário" {
+   [UI]
+}
+
+package "Módulo de Inscrições" {
+   [Gerenciar Inscrição]
+}
+
+package "Módulo de Competições" {
+   [Gerenciar Competição]
+}
+
+package "Módulo de Alocação de Locais" {
+   [Alocar Locais]
+}
+
+package "Módulo de Resultados" {
+   [Registrar Resultados]
+}
+
+package "Módulo de Relatórios" {
+   [Gerar Relatórios de Medalhas]
+}
+
+package "Database" {
+    [DB]
+}
+
+[UI] --> "Módulo de Competições"
+[UI] --> "Módulo de Inscrições"
+[UI] --> "Módulo de Resultados"
+[UI] --> "Módulo de Relatórios"
+
+"Módulo de Competições" --> "Módulo de Resultados"
+"Módulo de Competições"    --> "Módulo de Alocação de Locais"
+"Módulo de Competições"    --> "Módulo de Inscrições"
+"Módulo de Resultados" --> "Módulo de Relatórios"
+"Módulo de Resultados" --> [DB]
+"Módulo de Relatórios" --> [DB]
+"Módulo de Inscrições" --> [DB]
+"Módulo de Alocação de Locais" --> [DB]
+
+@enduml
