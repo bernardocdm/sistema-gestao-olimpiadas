@@ -51,7 +51,7 @@ Como usuário, quero consultar os resultados das competições.
 
 ### 📌 Diagrama de Caso de Uso
 
-<img src="./imagens/diagrama-de-caso-de-uso.png" width="600"/>
+<img src="./imagens/diagrama-casos-de-uso.png" width="600"/>
 
 ---
 

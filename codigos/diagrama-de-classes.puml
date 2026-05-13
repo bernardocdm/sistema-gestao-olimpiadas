@@ -1,0 +1,117 @@
+@startuml
+
+enum PerfilUsuario {
+  ADMIN
+  OPERADOR
+}
+
+enum TipoModalidade {
+  INDIVIDUAL
+  COLETIVO
+}
+
+class Usuario {
+  - id: int
+  - nome: String
+  - login: String
+  - senha: String
+  - perfil: PerfilUsuario
+  + autenticar(): boolean
+}
+
+class Pais {
+  - id: int
+  - nome: String
+  - sigla: String
+  + getAtletas(): List<Atleta>
+  + getTotalMedalhas(): int
+}
+
+class Atleta {
+  - id: int
+  - nome: String
+  - dataNascimento: Date
+  + getInscricoes(): List<Inscricao>
+  + getModalidades(): List<Modalidade>
+}
+
+class Modalidade {
+  - id: int
+  - nome: String
+  - tipo: TipoModalidade
+  + getCompeticoes(): List<Competicao>
+}
+
+class Local {
+  - id: int
+  - nome: String
+  - endereco: String
+  - capacidade: int
+  + estaDisponivel(data: Date, horario: Time): boolean
+  + getCompeticoes(): List<Competicao>
+}
+
+class Competicao {
+  - id: int
+  - data: Date
+  - horario: Time
+  + adicionarAtleta(a: Atleta): void
+  + removerAtleta(a: Atleta): void
+  + getInscritos(): List<Inscricao>
+  + encerrar(): void
+}
+
+class Inscricao {
+  - id: int
+  - dataInscricao: Date
+  + validarPaisUnicoPorModalidade(): boolean
+}
+
+class Resultado {
+  - id: int
+  - observacoes: String
+  + registrar(): void
+  + getClassificados(): List<Atleta>
+}
+
+class RelatorioMedalhas {
+  - dataGeracao: Date
+  + gerar(): void
+  + filtrarPorPais(p: Pais): RelatorioMedalhas
+  + exportar(): String
+}
+
+class AlocacaoLocal {
+  - id: int
+  - dataAlocacao: Date
+  + verificarConflito(): boolean
+  + confirmar(): void
+  + cancelar(): void
+}
+
+' Herança / Enum
+Usuario --> PerfilUsuario
+Modalidade --> TipoModalidade
+
+' Associações
+Atleta "N" --> "1" Pais : representa
+
+Inscricao "N" --> "1" Atleta : inscreve
+Inscricao "N" --> "1" Competicao : pertence a
+Inscricao "N" --> "1" Pais : representa na modalidade
+
+Competicao "N" --> "1" Modalidade : é de
+Competicao "1" --> "1" AlocacaoLocal : possui
+
+AlocacaoLocal "N" --> "1" Local : aloca
+AlocacaoLocal "N" --> "1" Competicao : para
+
+Resultado "1" --> "1" Competicao : referente a
+Resultado "1" --> "1" Atleta : ouro
+Resultado "1" --> "1" Atleta : prata
+Resultado "1" --> "1" Atleta : bronze
+
+RelatorioMedalhas "N" --> "1" Pais : agrega
+RelatorioMedalhas "N" --> "1" Resultado : consolida
+
+@enduml

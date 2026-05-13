@@ -7,12 +7,16 @@ actor "Comitê Olímpico" as Comite
 
 rectangle "Sistema de Gestão das Olimpíadas" {
   Administrador -- (Cadastrar Competição)
+  Administrador -- (Editar Competição)
   Administrador -- (Alocar Local)
-  Administrador -- (Registrar Resultados) 
+  Administrador -- (Vizualizar Inscrições)
+  Administrador -- (Registrar Resultados)
+ 
 
   (Registrar Resultados) ..> (Validar Resultados) : <<include>>
 
   Atleta -- (Inscrever-se em Competição)
+  Atleta -- (Cancelar Inscrição)
 
   Comite -- (Gerar Relatório de Medalhas)
   Comite -- (Consultar Resultados)

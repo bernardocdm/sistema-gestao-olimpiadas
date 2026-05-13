@@ -1,0 +1,58 @@
+@startuml
+
+node "Dispositivo do Usuário" {
+  component "Navegador Web" as Browser
+}
+
+node "Servidor Web" {
+  component "Aplicação Frontend" as Frontend
+}
+
+node "Servidor de Aplicação" {
+  component "API REST" as API
+  component "Serviço de Autenticação" as Auth
+  component "Módulo de Competições" as Comp
+  component "Módulo de Inscrições" as Insc
+  component "Módulo de Alocação de Locais" as Aloc
+  component "Módulo de Resultados" as Res
+  component "Módulo de Relatórios" as Rel
+}
+
+node "Servidor de Banco de Dados" {
+  database "Banco de Dados Principal" as DB
+  database "Banco de Logs" as LogDB
+}
+
+node "Servidor de Cache" {
+  component "Cache (Redis)" as Cache
+}
+
+node "Servidor de Arquivos" {
+  component "Armazenamento de Relatórios" as FileStorage
+}
+
+Browser --> Frontend : HTTPS
+Frontend --> API : HTTPS / JSON
+
+API --> Auth : valida token
+API --> Comp
+API --> Insc
+API --> Res
+API --> Rel
+
+Auth --> DB
+Comp --> DB
+Insc --> DB
+Aloc --> DB
+Res --> DB
+Rel --> DB
+
+Comp --> Aloc
+
+Rel --> FileStorage : salva PDF/Excel
+Rel --> Cache : cacheia relatório
+
+API --> LogDB : registra requisições
+Auth --> LogDB : registra acessos
+
+@enduml
